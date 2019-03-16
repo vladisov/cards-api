@@ -44,6 +44,12 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>de.flapdoodle.embed</groupId>-->
+			<!--<artifactId>de.flapdoodle.embed.mongo</artifactId>-->
+			<!--<scope>test</scope>-->
+		<!--</dependency>-->
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -15,9 +15,9 @@ class AuthorController(private val itemService: ItemService){
     @GetMapping
     fun getAll(pageable: Pageable): Page<Item> = itemService.getAll(pageable)
 
-    @GetMapping("{desc}")
-    fun getByDescription(@PathVariable desc:String): List<Item>
-            = itemService.findByDescription(desc)
+    @GetMapping(params = ["desc"])
+    fun getByDescription(@RequestParam desc:String, pageable: Pageable): Page<Item>
+            = itemService.findByDescription(desc, pageable)
 
     @PostMapping
     fun saveItem(@RequestBody item: Item):

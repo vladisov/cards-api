@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@ActiveProfiles("integrationtest")
 class BaseIntegrationTest {
 
     val itemApi = "/api/item"
@@ -39,8 +42,8 @@ class BaseIntegrationTest {
     fun test_WhenFindByDescription_Success() {
         saveDummyItem()
 
-        val typeRef = ParameterizedTypeReference.forType<List<Item>>(List::class.java)
-        val result = restTemplate.exchange("$itemApi/desc=dummy", HttpMethod.GET, buildRequest(), typeRef)
+        val typeRef = ParameterizedTypeReference.forType<Page<Item>>(Page::class.java)
+        val result = restTemplate.exchange("$itemApi?desc=dummy", HttpMethod.GET, buildRequest(), typeRef)
 
         assertNotNull(result)
         assertEquals(200, result.statusCodeValue)
@@ -48,7 +51,7 @@ class BaseIntegrationTest {
     }
 
     private fun buildRequest(): HttpEntity<HashMap<String, String>> {
-//        val requestParams = hashMapOf(Pair("desc", "dummy"))
+//        val requestParams = hashMapOf(Pair("desc",desc "dummy"))
         val requestHeaders = hashMapOf<String, String>()
         requestHeaders[HttpHeaders.CONTENT_TYPE] = "application/json;charset=UTF-8"
         return HttpEntity(requestHeaders)

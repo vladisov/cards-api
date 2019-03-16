@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component
  */
 @Component
 class ItemService(private val itemRepository: ItemRepository) {
-    fun findByDescription(description: String): List<Item> {
-        return itemRepository.findByDescription(description)
+    fun findByDescription(description: String, pageable: Pageable): Page<Item> {
+        return itemRepository.findByDescription(description, pageable)
     }
 
     fun getAll(pageable: Pageable): Page<Item> {
