@@ -12,5 +12,4 @@ class SeshmanApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-
 }

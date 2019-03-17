@@ -6,13 +6,18 @@ spring:
       port: 33323
       username: admin
       password: admin22
+
+  output:
+    ansi:
+      enabled: always
+
 ---
 spring:
-  profiles: integrationtest
+  profiles: test
   data:
     mongodb:
       database: seshstorage_test
       host: ds149954.mlab.com
       port: 49954
-      username: test-user
+      username: testuser
       password: testuser1

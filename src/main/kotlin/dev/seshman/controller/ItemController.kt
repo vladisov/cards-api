@@ -1,25 +1,25 @@
 package dev.seshman.controller
 
 import dev.seshman.domain.Item
-import dev.seshman.service.ItemService
+import dev.seshman.repository.ItemRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 /**
  * @author vladov 2019-03-14
  */
 @RestController("api/item")
-class AuthorController(private val itemService: ItemService){
+class ItemController(private val itemRepository: ItemRepository) {
 
-    @GetMapping
-    fun getAll(pageable: Pageable): Page<Item> = itemService.getAll(pageable)
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getAll(pageable: Pageable): Page<Item> = itemRepository.findAll(pageable)
 
-    @GetMapping(params = ["desc"])
-    fun getByDescription(@RequestParam desc:String, pageable: Pageable): Page<Item>
-            = itemService.findByDescription(desc, pageable)
+    @GetMapping(params = ["description"])
+    fun getByDescription(@RequestParam description: String, pageable: Pageable):
+            Page<Item> = itemRepository.findByDescriptionContaining(description, pageable)
 
     @PostMapping
-    fun saveItem(@RequestBody item: Item):
-            Item = itemService.save(item)
+    fun saveItem(@RequestBody item: Item): Item = itemRepository.save(item)
 }
