@@ -37,7 +37,6 @@ class ItemControllerTest {
     @MockBean
     private lateinit var sessionService: SessionService
 
-
     private lateinit var item: Item
     private lateinit var gson: Gson
 
