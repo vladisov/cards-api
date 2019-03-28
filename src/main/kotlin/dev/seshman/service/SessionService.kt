@@ -2,7 +2,6 @@ package dev.seshman.service
 
 import dev.seshman.domain.Item
 import dev.seshman.domain.Session
-import dev.seshman.repository.ItemRepository
 import dev.seshman.repository.SessionRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -14,8 +13,7 @@ import java.util.*
  * @author vladov 2019-03-17
  */
 @Service
-class SessionService(private val sessionRepository: SessionRepository,
-                     private val itemRepository: ItemRepository) {
+class SessionService(private val sessionRepository: SessionRepository) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(SessionService::class.java)

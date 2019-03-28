@@ -6,19 +6,15 @@ import dev.seshman.domain.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Pageable.unpaged
 import java.time.LocalDate
 
 /**
  * @author vladov 2019-03-17
  */
-@DataMongoTest
-internal class SessionServiceTest :
-    AbstractTest() {
-
-    @Autowired
-    private lateinit var sessionService: SessionService
+@SpringBootTest
+internal class SessionServiceTest(@Autowired private val sessionService: SessionService) : AbstractTest() {
 
     @Test
     fun testSaveItemSuccess() {

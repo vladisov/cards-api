@@ -3,6 +3,7 @@ package dev.seshman.controller
 import com.google.gson.Gson
 import dev.seshman.domain.Item
 import dev.seshman.repository.ItemRepository
+import dev.seshman.service.SessionService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -33,6 +34,9 @@ class ItemControllerTest {
     private lateinit var mockMvc: MockMvc
     @MockBean
     private lateinit var itemRepository: ItemRepository
+    @MockBean
+    private lateinit var sessionService: SessionService
+
 
     private lateinit var item: Item
     private lateinit var gson: Gson
@@ -49,7 +53,7 @@ class ItemControllerTest {
         val pageItems = PageImpl(listOf(item))
 
         given(itemRepository.findAll(pageRequest)).willReturn(pageItems)
-        given(itemRepository.save(item)).willReturn(item)
+        given(sessionService.saveItem(item)).willReturn(item)
         given(itemRepository.findByDescriptionContaining("desc", pageRequest)).willReturn(pageItems)
     }
 
