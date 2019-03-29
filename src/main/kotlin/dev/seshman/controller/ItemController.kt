@@ -22,6 +22,6 @@ class ItemController(private val itemRepository: ItemRepository) {
     @GetMapping(params = ["result"])
     fun findByResult(@RequestParam result: String): Flux<Item> = itemRepository.findByResultContaining(result)
 
-    @PostMapping
+    @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun saveItem(@RequestBody item: Item): Mono<Item> = itemRepository.save(item)
 }
