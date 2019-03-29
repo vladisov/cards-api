@@ -2,26 +2,26 @@ package dev.seshman.controller
 
 import dev.seshman.domain.Item
 import dev.seshman.repository.ItemRepository
-import dev.seshman.service.SessionService
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 /**
  * @author vladov 2019-03-14
  */
 @RestController("api/item")
-class ItemController(private val itemRepository: ItemRepository,
-                     private val sessionService: SessionService) {
+class ItemController(private val itemRepository: ItemRepository) {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getAll(pageable: Pageable): Page<Item> = itemRepository.findAll(pageable)
+    fun findAll(): Flux<Item> = itemRepository.findAll()
 
     @GetMapping(params = ["description"])
-    fun getByDescription(@RequestParam description: String, pageable: Pageable):
-            Page<Item> = itemRepository.findByDescriptionContaining(description, pageable)
+    fun findByDescription(@RequestParam description: String): Flux<Item> = itemRepository.findByDescriptionContaining(description)
+
+    @GetMapping(params = ["result"])
+    fun findByResult(@RequestParam result: String): Flux<Item> = itemRepository.findByResultContaining(result)
 
     @PostMapping
-    fun saveItem(@RequestBody item: Item): Item = sessionService.saveItem(item)
+    fun saveItem(@RequestBody item: Item): Mono<Item> = itemRepository.save(item)
 }
