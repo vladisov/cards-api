@@ -9,5 +9,4 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
  */
 @ExtendWith(SpringExtension::class)
 @ActiveProfiles("test")
-//@ContextConfiguration(classes = [TestConfiguration::class])
 abstract class AbstractTest
