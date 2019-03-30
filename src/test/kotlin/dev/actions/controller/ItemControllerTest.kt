@@ -1,8 +1,8 @@
-package dev.seshman.controller
+package dev.actions.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import dev.seshman.domain.Item
-import dev.seshman.repository.ItemRepository
+import dev.actions.domain.Item
+import dev.actions.repository.ItemRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled

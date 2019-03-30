@@ -1,7 +1,7 @@
-package dev.seshman.controller
+package dev.actions.controller
 
-import dev.seshman.domain.Item
-import dev.seshman.repository.ItemRepository
+import dev.actions.domain.Item
+import dev.actions.repository.ItemRepository
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux

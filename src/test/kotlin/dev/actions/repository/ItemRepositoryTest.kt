@@ -1,7 +1,7 @@
-package dev.seshman.repository
+package dev.actions.repository
 
-import dev.seshman.AbstractTest
-import dev.seshman.domain.Item
+import dev.actions.AbstractTest
+import dev.actions.domain.Item
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

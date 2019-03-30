@@ -1,13 +1,13 @@
-package dev.seshman
+package dev.actions
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SeshmanApplication
+class ActionsApplication
 
 fun main(args: Array<String>) {
-    runApplication<SeshmanApplication>(*args)
+    runApplication<ActionsApplication>(*args)
 }
 
 

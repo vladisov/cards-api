@@ -1,6 +1,6 @@
-package dev.seshman.repository
+package dev.actions.repository
 
-import dev.seshman.domain.Item
+import dev.actions.domain.Item
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import reactor.core.publisher.Flux
 

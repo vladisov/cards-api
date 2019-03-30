@@ -1,4 +1,4 @@
-package dev.seshman
+package dev.actions
 
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.ActiveProfiles
