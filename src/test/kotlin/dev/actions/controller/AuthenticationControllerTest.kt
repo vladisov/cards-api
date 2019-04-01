@@ -125,6 +125,7 @@ class AuthenticationControllerTest {
     @Test
     fun testSaveServerError() {
         given(userService.findByUsername(authRequest.username)).willReturn(Mono.empty())
+        given(passwordEncoder.encode(authRequest.password)).willReturn(authRequest.password)
         given(userService.save(authRequest.username, authRequest.password)).willReturn(Mono.empty())
 
         webClient.post()
