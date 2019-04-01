@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.</groupId>
-    <artifactId>seshman</artifactId>
+    <artifactId>actions</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>seshman</name>
-    <description>Demo project for Spring Boot</description>
+    <name>actions-api</name>
+    <description>Small rest service which allows you to save your daily actions. Based on springboot-webflux and mongodb.</description>
 
     <properties>
         <java.version>1.8</java.version>
