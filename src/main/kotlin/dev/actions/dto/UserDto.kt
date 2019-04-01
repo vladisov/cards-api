@@ -1,5 +1,6 @@
 package dev.actions.dto
 
+import dev.actions.domain.Role
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

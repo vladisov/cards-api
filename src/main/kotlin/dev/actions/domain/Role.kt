@@ -1,4 +1,4 @@
-package dev.actions.dto
+package dev.actions.domain
 
 /**
  * @author vladov 2019-03-31

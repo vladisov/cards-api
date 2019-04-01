@@ -1,7 +1,7 @@
 package dev.actions.service
 
+import dev.actions.domain.Role
 import dev.actions.domain.User
-import dev.actions.dto.Role
 import dev.actions.dto.UserDto
 import dev.actions.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -33,6 +33,6 @@ class UserService(private val userRepository: UserRepository) {
     }
 
     fun save(username: String, password: String): Mono<User> {
-        return userRepository.save(User(null, username, password))
+        return userRepository.save(User(null, username, password, true, Arrays.asList(Role.ROLE_USER)))
     }
 }

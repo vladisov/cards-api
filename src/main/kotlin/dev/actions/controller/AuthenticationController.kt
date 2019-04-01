@@ -31,30 +31,30 @@ class AuthenticationController {
     private lateinit var userService: UserService
 
     @PostMapping(value = ["/auth"])
-    fun auth(@RequestBody ar: AuthRequest): Mono<ResponseEntity<AuthResponse>> {
-        val users: Mono<UserDto> = userService.findByUsername(ar.username)
+    fun auth(@RequestBody request: AuthRequest): Mono<ResponseEntity<AuthResponse>> {
+        val users: Mono<UserDto> = userService.findByUsername(request.username)
         return users.map { userDetails ->
-            if (passwordEncoder.matches(ar.password, userDetails.password)) {
-                ResponseEntity.ok(AuthResponse(jwtService.generateToken(userDetails)))
-            } else {
-                ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+            when {
+                passwordEncoder.matches(request.password, userDetails.password) ->
+                    ResponseEntity.ok(AuthResponse(jwtService.generateToken(userDetails)))
+                else -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
             }
         }.defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build())
     }
 
     @PostMapping(value = ["/register"])
-    fun register(@RequestBody ar: AuthRequest): Mono<ResponseEntity<String>> {
-        val users: Mono<UserDto> = userService.findByUsername(ar.username)
-        val map = users.map {
-            ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("user already exists")
-        }
-        return createUser(ar)
+    //TODO exception handling
+    fun register(@RequestBody request: AuthRequest): Mono<ResponseEntity<String>> {
+        val users: Mono<UserDto> = userService.findByUsername(request.username)
+        return users.map { ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with the username already exists!") }
+                .switchIfEmpty(createUser(request))
     }
 
-    fun createUser(ar: AuthRequest): Mono<ResponseEntity<String>> {
-        return userService.save(ar.username, passwordEncoder.encode(ar.password))
-                .flatMap { user ->
-                    ResponseEntity.ok(user.username)
-                }
+    private fun createUser(ar: AuthRequest): Mono<ResponseEntity<String>> {
+        return Mono.defer {
+            val saved = userService.save(ar.username, passwordEncoder.encode(ar.password))
+            saved.map { ResponseEntity.ok().body("User saved!") }
+                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Smth went wrong, user wasn't created."))
+        }
     }
 }

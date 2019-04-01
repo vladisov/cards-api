@@ -1,6 +1,6 @@
 package dev.actions.config
 
-import dev.actions.dto.Role
+import dev.actions.domain.Role
 import dev.actions.service.JWTService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.ReactiveAuthenticationManager
