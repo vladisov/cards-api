@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux
 /**
  * @author vladov 2019-03-14
  */
-interface ItemRepository:ReactiveMongoRepository<Item,String>{
+interface ItemRepository : ReactiveMongoRepository<Item, String> {
     fun findByDescriptionContaining(description: String): Flux<Item>
-    fun findByResultContaining(result:String): Flux<Item>
+    fun findByResultContaining(result: String): Flux<Item>
 }

@@ -6,8 +6,8 @@ import dev.actions.dto.AuthResponse
 import dev.actions.dto.UserDto
 import dev.actions.service.JWTService
 import dev.actions.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,16 +19,7 @@ import reactor.core.publisher.Mono
  * @author vladov 2019-03-31
  */
 @RestController
-class AuthenticationController {
-
-    @Autowired
-    private lateinit var jwtService: JWTService
-
-    @Autowired
-    private lateinit var passwordEncoder: PBKDF2Encoder
-
-    @Autowired
-    private lateinit var userService: UserService
+class AuthenticationController(private val jwtService: JWTService, private val passwordEncoder: PBKDF2Encoder, private val userService: UserService) {
 
     @PostMapping(value = ["/auth"])
     fun auth(@RequestBody request: AuthRequest): Mono<ResponseEntity<AuthResponse>> {
@@ -42,8 +33,7 @@ class AuthenticationController {
         }.defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build())
     }
 
-    @PostMapping(value = ["/register"])
-    //TODO exception handling
+    @PostMapping(value = ["/register"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun register(@RequestBody request: AuthRequest): Mono<ResponseEntity<String>> {
         val users: Mono<UserDto> = userService.findByUsername(request.username)
         return users.map { ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with the username already exists!") }
