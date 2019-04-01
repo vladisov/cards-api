@@ -11,8 +11,9 @@ import java.util.*
 
 class JWTServiceTest : AbstractTest() {
 
-    lateinit var keyProps: KeyProps
-    lateinit var jwtService: JWTService
+    private lateinit var keyProps: KeyProps
+    private lateinit var jwtService: JWTService
+    private val token = "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyMTEiLCJpYXQiOjE1NTQxMTIwODksImV4cCI6MTU1NDE0MDk2OX0.UBJ3bj966Xtmm57FzH4qJdbF1QIzCMYy-YE-9b1m_ZIElF8SnC4Wc59T0pKeXVRA0etkGcEcg5pyhHKDhEWI0Q"
 
     @BeforeEach
     fun setup() {
@@ -24,7 +25,7 @@ class JWTServiceTest : AbstractTest() {
 
     @Test
     fun testGetExpirationDateFromTokenSuccess() {
-        val dateFromToken = jwtService.getExpirationDateFromToken("eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyMTEiLCJpYXQiOjE1NTQxMTIwODksImV4cCI6MTU1NDE0MDk2OX0.UBJ3bj966Xtmm57FzH4qJdbF1QIzCMYy-YE-9b1m_ZIElF8SnC4Wc59T0pKeXVRA0etkGcEcg5pyhHKDhEWI0Q")
+        val dateFromToken = jwtService.getExpirationDateFromToken(token)
         assertThat(dateFromToken).isNotNull()
         assertThat(dateFromToken).isEqualTo(Date(1554140969000))
     }
@@ -36,9 +37,24 @@ class JWTServiceTest : AbstractTest() {
     }
 
     @Test
-    fun validateTokenIsNotValid() {
-        val isTokenValid = jwtService.validateToken("eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyMTEiLCJpYXQiOjE1NTQxMTIwODksImV4cCI6MTU1NDE0MDk2OX0.UBJ3bj966Xtmm57FzH4qJdbF1QIzCMYy-YE-9b1m_ZIElF8SnC4Wc59T0pKeXVRA0etkGcEcg5pyhHKDhEWI0Q")
+    fun testValidateTokenIsNotValid() {
+        val isTokenValid = jwtService.validateToken(token)
         assertThat(isTokenValid).isNotNull()
         assertThat(isTokenValid).isFalse()
+    }
+
+    @Test
+    fun testGetAllClaimsFromTokenSuccess() {
+        val claims = jwtService.getAllClaimsFromToken(token)
+        assertThat(claims).isNotNull
+        assertThat(claims.subject).isEqualTo("user11")
+        assertThat(claims["role"]).isNotNull
+    }
+
+    @Test
+    fun testGetUsernameFromTokenSuccess() {
+        val username = jwtService.getUsernameFromToken(token)
+        assertThat(username).isNotNull()
+        assertThat(username).isEqualTo("user11")
     }
 }
