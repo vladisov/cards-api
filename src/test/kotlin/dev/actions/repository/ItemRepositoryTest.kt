@@ -42,6 +42,15 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
     }
 
     @Test
+    fun testFindByDescriptionContainingNotExist() {
+        val items = itemRepository.findByDescriptionContaining("dasda")
+        StepVerifier
+                .create(items)
+                .expectComplete()
+                .verify()
+    }
+
+    @Test
     fun testFindByResultSuccess() {
         val items = itemRepository.findByResultContaining("sda")
         StepVerifier
@@ -54,6 +63,16 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
                     assertThat(item).isNotNull
                     assertThat(item.result).isEqualTo("sda321")
                 }
+                .expectComplete()
+                .verify()
+    }
+
+
+    @Test
+    fun testFindByResultContainingNotExist() {
+        val items = itemRepository.findByResultContaining("dasda")
+        StepVerifier
+                .create(items)
                 .expectComplete()
                 .verify()
     }

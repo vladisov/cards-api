@@ -25,7 +25,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
-import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(AuthenticationController::class)
@@ -54,8 +53,8 @@ class AuthenticationControllerTest {
                 .build()
 
         authRequest = AuthRequest("dummy", "user")
-        userDto = UserDto("dummy", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true, Arrays.asList(Role.ROLE_USER))
-        user = User("id", "dummy", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true, Arrays.asList(Role.ROLE_USER))
+        userDto = UserDto("dummy", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true, listOf(Role.ROLE_USER))
+        user = User("id", "dummy", "cBrlgyL2GI2GINuLUUwgojITuIufFycpLG4490dhGtY=", true, listOf(Role.ROLE_USER))
     }
 
     @Test

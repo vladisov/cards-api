@@ -34,4 +34,13 @@ class UserRepositoryTest(@Autowired private val userRepository: UserRepository) 
                 .expectComplete()
                 .verify()
     }
+
+    @Test
+    fun testFindByUsernameNotExist() {
+        val items = userRepository.findByUsername("aada")
+        StepVerifier
+                .create(items)
+                .expectComplete()
+                .verify()
+    }
 }
