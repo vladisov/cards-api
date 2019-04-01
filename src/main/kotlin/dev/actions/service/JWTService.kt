@@ -5,7 +5,6 @@ import dev.actions.dto.UserDto
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.io.Serializable
 import java.util.*
@@ -15,10 +14,7 @@ import java.util.*
  * @author vladov 2019-03-31
  */
 @Component
-class JWTService : Serializable {
-
-    @Autowired
-    private lateinit var keyProps: KeyProps
+class JWTService(private val keyProps: KeyProps) : Serializable {
 
     fun getAllClaimsFromToken(token: String): Claims {
         return Jwts.parser().setSigningKey(Base64.getEncoder()
