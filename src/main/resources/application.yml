@@ -1,3 +1,13 @@
+jwtauth:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jjwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+    expiration: 28880
+
 spring:
   profiles:
     active: dev
@@ -16,6 +26,7 @@ spring:
   output:
     ansi:
       enabled: always
+
 
 ---
 spring:
