@@ -1,10 +1,11 @@
 package dev.actions.service
 
+import dev.actions.config.KeyProps
 import dev.actions.dto.UserDto
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.io.Serializable
 import java.util.*
@@ -16,15 +17,12 @@ import java.util.*
 @Component
 class JWTService : Serializable {
 
-    @Value("\${jwtauth.jjwt.secret}")
-    private lateinit var secret: String
-
-    @Value("\${jwtauth.jjwt.expiration}")
-    private lateinit var expirationTime: String
+    @Autowired
+    private lateinit var keyProps: KeyProps
 
     fun getAllClaimsFromToken(token: String): Claims {
         return Jwts.parser().setSigningKey(Base64.getEncoder()
-                .encodeToString(secret.toByteArray())).parseClaimsJws(token).body
+                .encodeToString(keyProps.secret.toByteArray())).parseClaimsJws(token).body
     }
 
     fun getUsernameFromToken(token: String): String {
@@ -47,16 +45,15 @@ class JWTService : Serializable {
     }
 
     private fun doGenerateToken(claims: Map<String, Any>, username: String): String {
-        val expirationTimeLong = java.lang.Long.parseLong(expirationTime)
         val createdDate = Date()
-        val expirationDate = Date(createdDate.time + expirationTimeLong * 1000)
+        val expirationDate = Date(createdDate.time + keyProps.expiration * 1000)
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(Keys.hmacShaKeyFor(secret.toByteArray()))
+                .signWith(Keys.hmacShaKeyFor(keyProps.secret.toByteArray()))
                 .compact()
     }
 
