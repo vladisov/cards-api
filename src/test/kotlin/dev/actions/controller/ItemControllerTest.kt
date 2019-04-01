@@ -48,7 +48,7 @@ class ItemControllerTest {
                 .bindToController(ItemController(itemRepository))
                 .build()
 
-        item = Item("123", "desc", "res", LocalDateTime.of(2019, 1, 1, 0, 0, 0))
+        item = Item("123", "desc", "res", LocalDateTime.of(2019, 1, 1, 0, 0, 0), "userId")
         itemJson = objectMapper.writeValueAsString(item)
         val itemFlux = Flux.just(item)
 
