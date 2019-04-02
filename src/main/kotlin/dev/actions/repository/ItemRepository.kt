@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux
  * @author vladov 2019-03-14
  */
 interface ItemRepository : ReactiveMongoRepository<Item, String> {
-    fun findByDescriptionContaining(description: String): Flux<Item>
-    fun findByResultContaining(result: String): Flux<Item>
+    fun findAllByUsername(username: String): Flux<Item>
+    fun findByDescriptionContainingAndUsername(description: String, username: String): Flux<Item>
+    fun findByResultContainingAndUsername(result: String, username: String): Flux<Item>
 }

@@ -21,13 +21,14 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
 
     @BeforeAll
     internal fun setup() {
-        itemRepository.save(Item(null, "desc", "132sda", LocalDateTime.now())).block()
-        itemRepository.save(Item(null, "addescda", "sda321", LocalDateTime.now())).block()
+        itemRepository.save(Item(null, "desc", "132sda", LocalDateTime.now(), "username")).block()
+        itemRepository.save(Item(null, "addescda", "sda321", LocalDateTime.now(), "username")).block()
+        itemRepository.save(Item(null, "dasda", "das", LocalDateTime.now(), "username111")).block()
     }
 
     @Test
-    fun testFindByDescriptionContainingSuccess() {
-        val items = itemRepository.findByDescriptionContaining("desc")
+    fun testFindByDescriptionContainingAndUsernameSuccess() {
+        val items = itemRepository.findByDescriptionContainingAndUsername("desc", "username")
         StepVerifier
                 .create(items)
                 .assertNext { item ->
@@ -42,8 +43,8 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
     }
 
     @Test
-    fun testFindByDescriptionContainingNotExist() {
-        val items = itemRepository.findByDescriptionContaining("dasda")
+    fun testFindByDescriptionContainingAndUsernameEmptyResult() {
+        val items = itemRepository.findByDescriptionContainingAndUsername("desc", "vasya")
         StepVerifier
                 .create(items)
                 .expectComplete()
@@ -51,26 +52,24 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
     }
 
     @Test
-    fun testFindByResultSuccess() {
-        val items = itemRepository.findByResultContaining("sda")
+    fun testFindByResultContainingAndUsernameSuccess() {
+        val items = itemRepository.findByDescriptionContainingAndUsername("desc", "username")
         StepVerifier
                 .create(items)
                 .assertNext { item ->
                     assertThat(item).isNotNull
-                    assertThat(item.result).isEqualTo("132sda")
+                    assertThat(item.description).isEqualTo("desc")
                 }
                 .assertNext { item ->
-                    assertThat(item).isNotNull
-                    assertThat(item.result).isEqualTo("sda321")
+                    assertThat(item.description).isEqualTo("addescda")
                 }
                 .expectComplete()
                 .verify()
     }
 
-
     @Test
-    fun testFindByResultContainingNotExist() {
-        val items = itemRepository.findByResultContaining("dasda")
+    fun testFindByResultContainingAndUsernameEmptyResult() {
+        val items = itemRepository.findByResultContainingAndUsername("desc", "vasya")
         StepVerifier
                 .create(items)
                 .expectComplete()
