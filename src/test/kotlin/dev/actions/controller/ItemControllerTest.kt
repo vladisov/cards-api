@@ -5,6 +5,7 @@ import dev.actions.domain.Item
 import dev.actions.repository.ItemRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -31,6 +32,7 @@ import java.time.LocalDateTime
 @WebMvcTest(ItemController::class)
 @EnableSpringDataWebSupport
 @ActiveProfiles("test")
+@Disabled
 class ItemControllerTest {
 
     @MockBean
@@ -41,10 +43,6 @@ class ItemControllerTest {
     private lateinit var webClient: WebTestClient
     private lateinit var item: Item
     private lateinit var itemJson: String
-
-    private val validToken = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNTU0MTQ1OTA0LCJleHAiOjkyNDY0NTg1MjAwfQ.9phRt48Qjsqgf12907wsL8HPSyoRe4HZLk2iWwnODmviXELGhAGsY6ltCaT89vqygildXOCXA37mxVNKq8tnTA"
-
-
 
     @BeforeEach
     fun setup() {
@@ -66,7 +64,6 @@ class ItemControllerTest {
     @Test
     fun testGetAllItemsSuccess() {
         val result: FluxExchangeResult<Item> = webClient.get().uri("/api/item")
-                .header(validToken)
                 .exchange()
                 .expectStatus().isOk
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
