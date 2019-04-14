@@ -34,5 +34,8 @@ class ItemController(private val itemRepository: ItemRepository) {
 
     @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    fun saveItem(@RequestBody item: Item): Mono<Item> = itemRepository.save(item)
+    fun saveItem(@RequestBody item: Item, @AuthenticationPrincipal username: String): Mono<Item> {
+        item.username = username
+        return itemRepository.save(item)
+    }
 }
