@@ -75,4 +75,29 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
                 .expectComplete()
                 .verify()
     }
+
+    @Test
+    fun testFindByIdSuccess() {
+        itemRepository.save(Item("123321", "dasda", "das", LocalDateTime.now(), "username111")).block()
+        val items = itemRepository.findById("123321")
+        StepVerifier
+                .create(items)
+                .assertNext { item ->
+                    assertThat(item).isNotNull
+                    assertThat(item.id).isEqualTo("123321")
+                    assertThat(item.description).isEqualTo("dasda")
+                    assertThat(item.result).isEqualTo("das")
+                }
+                .expectComplete()
+                .verify()
+    }
+
+    @Test
+    fun testFindByIdEmptyResult() {
+        val items = itemRepository.findById("1")
+        StepVerifier
+                .create(items)
+                .expectComplete()
+                .verify()
+    }
 }
