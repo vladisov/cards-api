@@ -100,4 +100,44 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
                 .expectComplete()
                 .verify()
     }
+
+    @Test
+    fun testFindTimestampBetweenSuccess() {
+        itemRepository.save(Item(null, "1", "1res", LocalDateTime.of(2000, 1, 1, 5, 5), "username111")).block()
+        itemRepository.save(Item(null, "2", "2res", LocalDateTime.of(2000, 1, 1, 6, 5), "username111")).block()
+        itemRepository.save(Item(null, "3", "3res", LocalDateTime.of(2000, 1, 1, 7, 5), "username111")).block()
+        val startDate = LocalDateTime.of(2000, 1, 1, 0, 0)
+        val endDate = LocalDateTime.of(2000, 1, 2, 0, 0, 0)
+        val items = itemRepository.findByTimestampBetweenAndUsernameOrderByTimestamp(startDate, endDate, "username111")
+        StepVerifier
+                .create(items)
+                .assertNext { item ->
+                    assertThat(item).isNotNull
+                    assertThat(item.description).isEqualTo("1")
+                    assertThat(item.result).isEqualTo("1res")
+                }
+                .assertNext { item ->
+                    assertThat(item).isNotNull
+                    assertThat(item.description).isEqualTo("2")
+                    assertThat(item.result).isEqualTo("2res")
+                }
+                .assertNext { item ->
+                    assertThat(item).isNotNull
+                    assertThat(item.description).isEqualTo("3")
+                    assertThat(item.result).isEqualTo("3res")
+                }
+                .expectComplete()
+                .verify()
+    }
+
+    @Test
+    fun testFindTimestampBetweenEmptyResult() {
+        val startDate = LocalDateTime.of(1999, 1, 1, 0, 0)
+        val endDate = LocalDateTime.of(1999, 1, 2, 0, 0, 0)
+        val items = itemRepository.findByTimestampBetweenAndUsernameOrderByTimestamp(startDate, endDate, "username111")
+        StepVerifier
+                .create(items)
+                .expectComplete()
+                .verify()
+    }
 }

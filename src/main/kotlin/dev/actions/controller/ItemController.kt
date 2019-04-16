@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.LocalDate
 
 /**
  * @author vladov 2019-03-14
@@ -25,6 +26,14 @@ class ItemController(private val itemRepository: ItemRepository) {
     @GetMapping(params = ["id"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     fun findById(@RequestParam id: String): Mono<Item> = itemRepository.findById(id)
+
+    @GetMapping(params = ["date"])
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    fun findById(@RequestParam date: LocalDate, @AuthenticationPrincipal username: String): Flux<Item> {
+        val startDate = date.atStartOfDay()
+        val endDate = date.plusDays(1).atStartOfDay()
+        return itemRepository.findByTimestampBetweenAndUsernameOrderByTimestamp(startDate, endDate, username)
+    }
 
     @GetMapping(params = ["description"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
