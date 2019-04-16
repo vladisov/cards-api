@@ -2,6 +2,7 @@ package dev.actions.controller
 
 import dev.actions.domain.Item
 import dev.actions.repository.ItemRepository
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -29,7 +30,7 @@ class ItemController(private val itemRepository: ItemRepository) {
 
     @GetMapping(params = ["date"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    fun findById(@RequestParam date: LocalDate, @AuthenticationPrincipal username: String): Flux<Item> {
+    fun findById(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) date: LocalDate, @AuthenticationPrincipal username: String): Flux<Item> {
         val startDate = date.atStartOfDay()
         val endDate = date.plusDays(1).atStartOfDay()
         return itemRepository.findByTimestampBetweenAndUsernameOrderByTimestamp(startDate, endDate, username)
