@@ -22,6 +22,10 @@ class ItemController(private val itemRepository: ItemRepository) {
         return itemRepository.findAllByUsername(username)
     }
 
+    @GetMapping(params = ["id"])
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    fun findById(@RequestParam id: String): Mono<Item> = itemRepository.findById(id)
+
     @GetMapping(params = ["description"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     fun findByDescription(@RequestParam description: String, @AuthenticationPrincipal username: String):
