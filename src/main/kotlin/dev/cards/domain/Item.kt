@@ -9,4 +9,4 @@ data class Item(@Id val id: String?,
                 val content: String,
                 val type: String,
                 val timestamp: Instant,
-                var username: String?)
+                var userId: String?)

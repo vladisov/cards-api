@@ -60,8 +60,8 @@ class ItemControllerTest {
         val itemFlux = Flux.just(item)
 
         given(itemRepository.save(item)).willReturn(Mono.just(item))
-        given(itemRepository.findAllByUsername("user")).willReturn(itemFlux)
-        given(itemRepository.findByContentContainingAndUsername("desc", "user")).willReturn(itemFlux)
+        given(itemRepository.findAllByUserId("user")).willReturn(itemFlux)
+        given(itemRepository.findByContentContainingAndUserId("desc", "user")).willReturn(itemFlux)
     }
 
     @Test
