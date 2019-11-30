@@ -1,2 +1,2 @@
-# actions-api
-[![Build Status](https://api.travis-ci.com/vladisOV/actions-api.svg?branch=master)](https://travis-ci.com/vladisOV/actions-api)
+# cards-api
+[![Build Status](https://travis-ci.com/vladisOV/cards-api.svg?token=KJNnBwxWyPaEWN1xM82B&branch=master)](https://travis-ci.com/vladisOV/cards-api)

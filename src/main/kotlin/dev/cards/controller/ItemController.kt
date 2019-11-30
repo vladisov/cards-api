@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Instant
 
 /**
  * @author vladov 2019-03-14
@@ -41,6 +42,7 @@ class ItemController(private val itemRepository: ItemRepository) {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     fun saveItem(@RequestBody item: Item, @AuthenticationPrincipal userId: String): Mono<Item> {
         item.userId = userId
+        item.timestamp = Instant.now()
         return itemRepository.save(item)
     }
 }
