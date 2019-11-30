@@ -2,6 +2,6 @@ language: java
 jdk: oraclejdk11
 
 before_install:
-  - chmod +x mvn
+  - chmod +x mvnw
 script:
-  - ./mvn test
+  - ./mvnw test
