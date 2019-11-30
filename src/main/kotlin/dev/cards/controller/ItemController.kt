@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Instant
 
 /**
  * @author vladov 2019-03-14
@@ -17,8 +18,8 @@ class ItemController(private val itemRepository: ItemRepository) {
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    fun findAll(@AuthenticationPrincipal username: String): Flux<Item> {
-        return itemRepository.findAllByUsername(username)
+    fun findAll(@AuthenticationPrincipal userId: String): Flux<Item> {
+        return itemRepository.findAllByUserId(userId)
     }
 
     @GetMapping(params = ["id"])
@@ -29,18 +30,19 @@ class ItemController(private val itemRepository: ItemRepository) {
     @GetMapping(params = ["content"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     fun findByDescription(@RequestParam content: String, @AuthenticationPrincipal(expression = "id") username: String):
-            Flux<Item> = itemRepository.findByContentContainingAndUsername(content, username)
+            Flux<Item> = itemRepository.findByContentContainingAndUserId(content, username)
 
     @GetMapping(params = ["type"])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    fun findByType(@RequestParam type: String, @AuthenticationPrincipal id: String):
-            Flux<Item> = itemRepository.findByTypeAndId(type, id)
+    fun findByType(@RequestParam type: String, @AuthenticationPrincipal userId: String):
+            Flux<Item> = itemRepository.findByTypeAndUserId(type, userId)
 
 
     @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    fun saveItem(@RequestBody item: Item, @AuthenticationPrincipal username: String): Mono<Item> {
-        item.username = username
+    fun saveItem(@RequestBody item: Item, @AuthenticationPrincipal userId: String): Mono<Item> {
+        item.userId = userId
+        item.timestamp = Instant.now()
         return itemRepository.save(item)
     }
 }
