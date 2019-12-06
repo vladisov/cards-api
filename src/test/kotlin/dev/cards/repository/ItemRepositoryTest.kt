@@ -20,8 +20,8 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
 
     @Test
     fun testFindByContentContainingAndUserIdSuccess() {
-        itemRepository.save(Item(null, "desc", "132sda", Instant.now(), "userid1")).block()
-        itemRepository.save(Item(null, "addescda", "sda321", Instant.now(), "userid1")).block()
+        itemRepository.save(Item(null, "header", "desc", "132sda", Instant.now(), "userid1")).block()
+        itemRepository.save(Item(null, "header", "addescda", "sda321", Instant.now(), "userid1")).block()
         val items = itemRepository.findByContentContainingAndUserId("desc", "userid1")
         StepVerifier
                 .create(items)
@@ -47,7 +47,7 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
 
     @Test
     fun testFindByIdSuccess() {
-        itemRepository.save(Item("123321", "dasda", "das", Instant.now(), "userid3")).block()
+        itemRepository.save(Item("123321", "header", "dasda", "das", Instant.now(), "userid3")).block()
         val items = itemRepository.findById("123321")
         StepVerifier
                 .create(items)
@@ -71,7 +71,7 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
 
     @Test
     fun testFindByTypeAndUserIdSuccess() {
-        itemRepository.save(Item("123321", "dasda", "type", Instant.now(), "userid3")).block()
+        itemRepository.save(Item("123321", "header", "dasda", "type", Instant.now(), "userid3")).block()
         val items = itemRepository.findByTypeAndUserId("type", "userid3")
         StepVerifier
                 .create(items)
@@ -88,7 +88,7 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
 
     @Test
     fun testFindByTypeAndUserIdEmptyResult() {
-        itemRepository.save(Item("123321", "dasda", "type", Instant.now(), "userid3")).block()
+        itemRepository.save(Item("123321", "header", "dasda", "type", Instant.now(), "userid3")).block()
         val items = itemRepository.findByTypeAndUserId("123321", "userid3");
         StepVerifier
                 .create(items)
