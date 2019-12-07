@@ -1,5 +1,15 @@
+sudo:
+  required
+
+services:
+  - docker
+
 language: java
 jdk: oraclejdk11
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::7}
 
 before_install:
   - chmod +x mvnw
