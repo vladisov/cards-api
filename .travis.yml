@@ -5,3 +5,15 @@ before_install:
   - chmod +x mvnw
 script:
   - ./mvnw test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  - docker login -u $D_USER -p $D_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export NAME=vladisov/cards-api
+  - docker tag $NAME:$COMMIT $NAME:$TAG
+  - docker push $NAME
+
+notifications:
+  email:
+    - vlad079@ya.ru
