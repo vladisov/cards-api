@@ -53,7 +53,7 @@ class ItemControllerTest {
                 .apply<WebTestClient.ControllerSpec>(SecurityMockServerConfigurers.springSecurity())
                 .build()
 
-        item = Item("123", "desc", "res",
+        item = Item("123", "header", "desc", "res",
                 LocalDateTime.of(2019, 1, 1, 0, 0, 0)
                         .toInstant(ZoneOffset.UTC), "userId")
         itemJson = objectMapper.writeValueAsString(item)
