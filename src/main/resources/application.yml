@@ -10,7 +10,7 @@ jwtauth:
 
 spring:
   profiles:
-    active: local
+    active: dev
   output:
     ansi:
       enabled: always
@@ -43,11 +43,11 @@ spring:
   profiles: dev
   data:
     mongodb:
-      database: seshstorage
-      host: ds233323.mlab.com
-      port: 33323
-      username: admin
-      password: admin22
+      database:
+      host:
+      port:
+      username:
+      password:
 
 ---
 spring:
