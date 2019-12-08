@@ -11,10 +11,15 @@ jwtauth:
 spring:
   profiles:
     active: dev
----
+  output:
+    ansi:
+      enabled: always
+server:
+  port: 8082
 
+---
 spring:
-  profiles: dev
+  profiles: local
   data:
     mongodb:
       database: seshstorage
@@ -23,10 +28,26 @@ spring:
       username: admin
       password: admin22
 
-  output:
-    ansi:
-      enabled: always
+jwtauth:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jjwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+    expiration: 28880
 
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      database:
+      host:
+      port:
+      username:
+      password:
 
 ---
 spring:
@@ -34,7 +55,3 @@ spring:
   data:
     mongodb:
       port: 0
-
-  output:
-    ansi:
-      enabled: always
