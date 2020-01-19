@@ -63,4 +63,3 @@ spring:
     allow-bean-definition-overriding: true
 server:
   port: 8085
-debug: true
