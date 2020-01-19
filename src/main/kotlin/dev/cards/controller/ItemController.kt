@@ -23,10 +23,10 @@ class ItemController(private val itemRepository: ItemRepository) {
         return itemRepository.findAllByUserId(userId)
     }
 
-    @GetMapping(path = ["/first"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(path = ["/random"], produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("isAuthenticated()")
     fun findFirst(@AuthenticationPrincipal userId: String): Flux<Item> {
-        return itemRepository.findFirstByUserId(userId)
+        return itemRepository.findRandomByUserId(userId)
     }
 
     @GetMapping(params = ["id"])

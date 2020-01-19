@@ -46,22 +46,6 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
     }
 
     @Test
-    fun testFindFirstByUserIdSuccess() {
-        itemRepository.save(Item(null, "desc", "132sda", Instant.now(), "userid2")).block()
-
-        val item = itemRepository.findFirstByUserId("userid2")
-        StepVerifier
-                .create(item)
-                .assertNext { i ->
-                    assertThat(i.content).isEqualTo("desc")
-                    assertThat(i.type).isEqualTo("132sda")
-                    assertThat(i.timestamp).isNotNull()
-                }
-                .expectComplete()
-                .verify()
-    }
-
-    @Test
     fun testFindByIdSuccess() {
         itemRepository.save(Item("123321", "dasda", "das", Instant.now(), "userid3")).block()
         val items = itemRepository.findById("123321")

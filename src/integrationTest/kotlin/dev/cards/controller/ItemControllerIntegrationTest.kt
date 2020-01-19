@@ -17,11 +17,10 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
 
     @Test
     @WithMockUser(username = "user", password = "pass")
-    fun testCreateItemAndFindFirstSuccess() {
-        val createdItem = createItem(Item(null, "content", "type", null, null), userId)
-                .blockFirst()!!
+    fun testGetRandomCardsSuccess() {
+        val createdItem = createItem(Item(null, "content33", "type1", null, null), userId).blockFirst()!!
 
-        val uri = UriComponentsBuilder.fromPath("/api/item/first")
+        val uri = UriComponentsBuilder.fromPath("/api/item/random")
                 .queryParam("userId", userId)
                 .build()
                 .toUriString()
