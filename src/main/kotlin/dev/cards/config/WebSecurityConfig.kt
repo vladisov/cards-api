@@ -38,7 +38,15 @@ class WebSecurityConfig {
                 .securityContextRepository(securityContext)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers("/auth", "/register").permitAll()
+                .pathMatchers(
+                        "/auth",
+                        "/register",
+                        "/actuator/**",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/v2/**",
+                        "/swagger-ui.html**")
+                .permitAll()
                 .anyExchange().authenticated()
                 .and().build()
     }

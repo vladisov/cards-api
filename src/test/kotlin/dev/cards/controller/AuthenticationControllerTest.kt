@@ -66,10 +66,11 @@ class AuthenticationControllerTest {
         val result: FluxExchangeResult<AuthResponse> =
                 webClient.post()
                         .uri("/auth")
-                        .syncBody(authRequest)
+                        .bodyValue(authRequest)
                         .exchange()
                         .expectStatus().isOk
-                        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .expectHeader()
+                        .contentType(MediaType.APPLICATION_JSON)
                         .returnResult(AuthResponse::class.java)
 
         val authResponse: Flux<AuthResponse> = result.responseBody
@@ -91,7 +92,7 @@ class AuthenticationControllerTest {
 
         webClient.post()
                 .uri("/auth")
-                .syncBody(authRequest)
+                .bodyValue(authRequest)
                 .exchange()
                 .expectStatus().isUnauthorized
     }
@@ -104,10 +105,9 @@ class AuthenticationControllerTest {
 
         webClient.post()
                 .uri("/register")
-                .syncBody(authRequest)
+                .bodyValue(authRequest)
                 .exchange()
                 .expectStatus().isOk
-                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .returnResult(AuthResponse::class.java)
     }
 
@@ -117,7 +117,7 @@ class AuthenticationControllerTest {
 
         webClient.post()
                 .uri("/register")
-                .syncBody(authRequest)
+                .bodyValue(authRequest)
                 .exchange()
                 .expectStatus().isBadRequest
     }
@@ -130,7 +130,7 @@ class AuthenticationControllerTest {
 
         webClient.post()
                 .uri("/register")
-                .syncBody(authRequest)
+                .bodyValue(authRequest)
                 .exchange()
                 .expectStatus().is5xxServerError
     }
