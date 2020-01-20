@@ -1,16 +1,16 @@
 jwtauth:
   password:
     encoder:
-      secret: mysecret
+      secret: asewqeqs
       iteration: 33
       keylength: 256
   jjwt:
-    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+    secret: 2s5v8x/A?D(G+KbPeShVmYq3t6w9z$B&E)H@McQfTjWnZr4u7x!A%D*F-JaNdRgU
     expiration: 28880
 
 spring:
   profiles:
-    active: dev
+    active: local
   output:
     ansi:
       enabled: always
@@ -55,3 +55,11 @@ spring:
   data:
     mongodb:
       port: 0
+  security:
+    user:
+      name: user
+      password: pass
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8085
