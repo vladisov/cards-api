@@ -17,7 +17,7 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
 
     @Test
     @WithMockUser(username = "user", password = "pass")
-    fun testGetRandomCardsSuccess() {
+    fun getRandomCardsSuccess() {
         val createdItem = createItem(Item(null, "content33", "type1", null, null), userId).blockFirst()!!
 
         val uri = UriComponentsBuilder.fromPath("/api/item/random")

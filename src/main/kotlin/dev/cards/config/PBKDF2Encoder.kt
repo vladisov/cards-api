@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.security.NoSuchAlgorithmException
 import java.security.spec.InvalidKeySpecException
-import java.util.*
+import java.util.Base64
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 
