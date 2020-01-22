@@ -2,6 +2,7 @@ package dev.cards.controller
 
 import dev.cards.IntegrationTestBase
 import dev.cards.domain.Item
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.web.util.UriComponentsBuilder
@@ -17,9 +18,52 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
 
     @Test
     @WithMockUser(username = "user", password = "pass")
-    fun getRandomCardsSuccess() {
-        val createdItem = createItem(Item(null, "content33", "type1", null, null), userId).blockFirst()!!
+    fun fetchAllItems() {
+        val once = createItem(Item(null, "Once", "type1", null, null), userId).blockFirst()!!
+        val upon = createItem(Item(null, "upon", "type2", null, null), userId).blockFirst()!!
+        val aTime = createItem(Item(null, "a time", "type3", null, null), userId).blockFirst()!!
+        val uri = UriComponentsBuilder
+                .fromPath("/api/item/all")
+                .queryParam("userId", userId)
+                .build().toUriString()
+        val responseBody = webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus().isOk
+                .returnResult(Item::class.java)
+                .responseBody
+        StepVerifier
+                .create(responseBody)
+                .expectSubscription()
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(once.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(once.content)
+                    assertThat(item.type).isEqualTo(once.type)
+                    assertThat(item.userId).isEqualTo(userId)
+                }
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(upon.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(upon.content)
+                    assertThat(item.type).isEqualTo(upon.type)
+                    assertThat(item.userId).isEqualTo(userId)
+                }
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(aTime.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(aTime.content)
+                    assertThat(item.type).isEqualTo(aTime.type)
+                    assertThat(item.userId).isEqualTo(userId)
+                }
+                .thenCancel()
+                .verify()
+    }
 
+    @Test
+    @WithMockUser(username = "user", password = "pass")
+    fun fetchRandomCardsSuccess() {
         val uri = UriComponentsBuilder.fromPath("/api/item/random")
                 .queryParam("userId", userId)
                 .build()
@@ -36,7 +80,99 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                 .create(responseItem)
                 .expectSubscription()
                 .assertNext { item ->
-                    createdItem == item
+                    assertThat(item.id).isNotNull()
+                    assertThat(item.userId).isNotNull()
+                }
+                .expectComplete()
+                .verify()
+
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "pass")
+    fun fetchItemByIdSuccess() {
+        val createdItem = createItem(Item(null, "meaningful content", "type1", null, null), userId).blockFirst()!!
+        val uri = UriComponentsBuilder
+                .fromPath("/api/item")
+                .queryParam("id", createdItem.id)
+                .build().toUriString()
+        val responseBody = webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus().isOk
+                .returnResult(Item::class.java)
+                .responseBody
+        StepVerifier
+                .create(responseBody)
+                .expectSubscription()
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(createdItem.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(createdItem.content)
+                    assertThat(item.type).isEqualTo(createdItem.type)
+                    assertThat(item.userId).isEqualTo(userId)
+                }
+                .expectComplete()
+                .verify()
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "pass")
+    fun fetchItemByContentSuccess() {
+        val createdItem = createItem(Item(null, "content33", "type1", null, null), userId).blockFirst()!!
+        val uri = UriComponentsBuilder
+                .fromPath("/api/item")
+                .queryParam("content", createdItem.content)
+                .queryParam("userId", userId)
+                .build().toUriString()
+        val responseBody = webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus().isOk
+                .returnResult(Item::class.java)
+                .responseBody
+        StepVerifier
+                .create(responseBody)
+                .expectSubscription()
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(createdItem.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(createdItem.content)
+                    assertThat(item.type).isEqualTo(createdItem.type)
+                    assertThat(item.userId).isEqualTo(userId)
+                }
+                .expectComplete()
+                .verify()
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "pass")
+    fun fetchItemByTypeSuccess() {
+
+        val createdItem = createItem(Item(null, "text", "type to search", null, null), userId).blockFirst()!!
+        val uri = UriComponentsBuilder
+                .fromPath("/api/item")
+                .queryParam("type", createdItem.type)
+                .queryParam("userId", userId)
+                .build().toUriString()
+        val responseBody = webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus().isOk
+                .returnResult(Item::class.java)
+                .responseBody
+        StepVerifier
+                .create(responseBody)
+                .expectSubscription()
+                .assertNext { item ->
+                    assertThat(item.id).isEqualTo(createdItem.id)
+                    assertThat(item.timestamp).isNotNull()
+                    assertThat(item.content).isEqualTo(createdItem.content)
+                    assertThat(item.type).isEqualTo(createdItem.type)
+                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .expectComplete()
                 .verify()

@@ -41,8 +41,8 @@ class ItemController(private val itemRepository: ItemRepository) {
 
     @GetMapping(params = ["content"])
     @PreAuthorize("isAuthenticated()")
-    fun findByDescription(@RequestParam content: String, @AuthenticationPrincipal(expression = "id") username: String):
-            Flux<Item> = itemRepository.findByContentContainingAndUserId(content, username)
+    fun findByDescription(@RequestParam content: String, @AuthenticationPrincipal(expression = "id") userId: String):
+            Flux<Item> = itemRepository.findByContentContainingAndUserId(content, userId)
 
     @GetMapping(params = ["type"])
     @PreAuthorize("isAuthenticated()")
