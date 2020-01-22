@@ -1,0 +1,17 @@
+spring:
+  profiles: local
+  data:
+    mongodb:
+      database: seshstorage
+      host: 127.0.0.1
+      port: 27017
+
+jwtauth:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jjwt:
+    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
+    expiration: 28880

@@ -1,0 +1,9 @@
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      database: seshstorage
+      host: ds233323.mlab.com
+      port: 33323
+      username: admin
+      password: admin22

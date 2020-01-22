@@ -1,0 +1,13 @@
+spring:
+  profiles: test
+  data:
+    mongodb:
+      port: 0
+  security:
+    user:
+      name: user
+      password: pass
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8085
