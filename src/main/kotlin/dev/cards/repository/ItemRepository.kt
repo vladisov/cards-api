@@ -11,4 +11,5 @@ interface ItemRepository : ReactiveMongoRepository<Item, String>, ItemRepository
     fun findAllByUserId(userId: String): Flux<Item>
     fun findByTypeAndUserId(type: String, userId: String): Flux<Item>
     fun findByContentContainingAndUserId(content: String, userId: String): Flux<Item>
+    fun deleteAllByIdAndUserId(id: String, userId: String): Flux<Item>
 }

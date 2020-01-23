@@ -41,21 +41,18 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(once.content)
                     assertThat(item.type).isEqualTo(once.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .assertNext { item ->
                     assertThat(item.id).isEqualTo(upon.id)
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(upon.content)
                     assertThat(item.type).isEqualTo(upon.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .assertNext { item ->
                     assertThat(item.id).isEqualTo(aTime.id)
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(aTime.content)
                     assertThat(item.type).isEqualTo(aTime.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .thenCancel()
                 .verify()
@@ -81,7 +78,6 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                 .expectSubscription()
                 .assertNext { item ->
                     assertThat(item.id).isNotNull()
-                    assertThat(item.userId).isNotNull()
                 }
                 .expectComplete()
                 .verify()
@@ -111,7 +107,6 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(createdItem.content)
                     assertThat(item.type).isEqualTo(createdItem.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .expectComplete()
                 .verify()
@@ -141,7 +136,6 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(createdItem.content)
                     assertThat(item.type).isEqualTo(createdItem.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .expectComplete()
                 .verify()
@@ -172,7 +166,6 @@ class ItemControllerIntegrationTest : IntegrationTestBase() {
                     assertThat(item.timestamp).isNotNull()
                     assertThat(item.content).isEqualTo(createdItem.content)
                     assertThat(item.type).isEqualTo(createdItem.type)
-                    assertThat(item.userId).isEqualTo(userId)
                 }
                 .expectComplete()
                 .verify()
