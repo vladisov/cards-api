@@ -5,12 +5,7 @@ import dev.cards.repository.ItemRepository
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Instant
@@ -30,7 +25,7 @@ class ItemController(private val itemRepository: ItemRepository) {
 
     @GetMapping(path = ["/random"], produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("isAuthenticated()")
-    fun findFirst(@AuthenticationPrincipal userId: String): Flux<Item> {
+    fun findRandom(@AuthenticationPrincipal userId: String): Flux<Item> {
         return itemRepository.findRandomByUserId(userId)
     }
 
@@ -56,5 +51,11 @@ class ItemController(private val itemRepository: ItemRepository) {
         item.userId = userId
         item.timestamp = Instant.now()
         return itemRepository.save(item)
+    }
+
+    @DeleteMapping(params = ["id"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PreAuthorize("isAuthenticated()")
+    fun deleteItem(@RequestParam id: String, @AuthenticationPrincipal userId: String): Flux<Item> {
+        return itemRepository.deleteAllByIdAndUserId(id, userId);
     }
 }
