@@ -17,7 +17,7 @@ class UserService(private val userRepository: UserRepository) {
     fun findByUsername(username: String): Mono<UserDto> {
         return userRepository.findByUsername(username)
                 .map { user ->
-                    UserDto(user.id!!, user.username, user.password, true, listOf(Role.ROLE_USER))
+                    UserDto(user.id!!, user.username, user.password, true, user.roles)
                 }
     }
 

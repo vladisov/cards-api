@@ -95,4 +95,27 @@ class ItemRepositoryTest(@Autowired private val itemRepository: ItemRepository) 
                 .expectComplete()
                 .verify()
     }
+
+    @Test
+    fun testDeleteSuccess() {
+        itemRepository.save(Item("13131222", "randomContent", "type", Instant.now(), "userid3")).block()
+        val items = itemRepository.deleteAllByIdAndUserId("13131222", "userid3")
+        StepVerifier
+                .create(items)
+                .assertNext { item ->
+                    assertThat(item).isNotNull
+                    assertThat(item.id).isEqualTo("13131222")
+                    assertThat(item.content).isEqualTo("randomContent")
+                    assertThat(item.type).isEqualTo("type")
+                    assertThat(item.userId).isEqualTo("userid3")
+                }
+                .expectComplete()
+                .verify()
+
+        val emptyItems = itemRepository.findById("13131222")
+        StepVerifier
+                .create(emptyItems)
+                .expectComplete()
+                .verify();
+    }
 }
