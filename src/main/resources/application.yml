@@ -10,7 +10,7 @@ jwtauth:
 
 spring:
   profiles:
-    active: local
+    active: dev
   output:
     ansi:
       enabled: always
