@@ -22,7 +22,7 @@ after_success:
   - docker login -u $D_USER -p $D_PASS
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $COMMIT; fi`
   - export NAME=vladisov/cards-api
-  - docker build --build-arg JASYPT_PASS_ARG=$JASYPT_PASS -t $NAME:$COMMIT .
+  - docker build -t $NAME:$COMMIT .
   - docker tag $NAME:$COMMIT $NAME:$TAG
   - docker push $NAME
 

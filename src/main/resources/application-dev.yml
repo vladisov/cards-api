@@ -2,8 +2,14 @@ spring:
   profiles: dev
   data:
     mongodb:
-      database: seshstorage
-      host: ds233323.mlab.com
-      port: 33323
-      username: admin
-      password: ENC(ZZgJa4LQ6WD1XTXL1wkBVA==)
+      uri: ENC(RvaMqYO3Iu7aUstaX7wNk/pGhSoD8AkL4WSvRsYTl/7YmQP0cHVE5n/kE+YAUYMvZ3kK3idG64BjBGbGO9S8KV9znC8LTcAvsdZ1GnSEKCy7a5Z3fK4zCZHvfgGksRi0H7cErQxYT4Ow04IM3WcDxzON5CovLE//JSaHRg0Asxg=)
+
+jwtauth:
+  password:
+    encoder:
+      secret: ENC(jBNn7VA5HckOE1UWttdR+0orzGdt1xZQ)
+      iteration: 33
+      keylength: 256
+  jjwt:
+    secret: ENC(aCeo2lNExGrUDaOxb26Txi/pjuN75lh6syD8N1uxq2YGijsuIMi/SIkUEEe7QrIr47yF1tRI/SyrOZ0AdtMpBEL58QUQUGi7Qx2gEo8cys4=)
+    expiration: 28880
