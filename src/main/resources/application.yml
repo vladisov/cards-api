@@ -1,40 +1,8 @@
-jwtauth:
-  password:
-    encoder:
-      secret: mysecret
-      iteration: 33
-      keylength: 256
-  jjwt:
-    secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave512bitsKeySize
-    expiration: 28880
-
 spring:
   profiles:
     active: dev
----
-
-spring:
-  profiles: dev
-  data:
-    mongodb:
-      database: seshstorage
-      host: ds233323.mlab.com
-      port: 33323
-      username: admin
-      password: admin22
-
   output:
     ansi:
       enabled: always
-
-
----
-spring:
-  profiles: test
-  data:
-    mongodb:
-      port: 0
-
-  output:
-    ansi:
-      enabled: always
+server:
+  port: 8082

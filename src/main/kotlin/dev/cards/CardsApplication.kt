@@ -1,13 +1,15 @@
 package dev.cards
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ActionsApplication
+@EnableEncryptableProperties
+class CardsApplication
 
 fun main(args: Array<String>) {
-    runApplication<ActionsApplication>(*args)
+    runApplication<CardsApplication>(*args)
 }
 
 
